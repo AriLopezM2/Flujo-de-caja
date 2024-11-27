@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +14,7 @@ namespace Flujo_de_caja
 {
     public partial class Form1 : Form
     {
-        public int Ingreso = 0, Egreso =0;
+        public int Ingreso = 0, Egreso =0 , cambio=0;
         
         public Form1()
         {
@@ -36,6 +36,14 @@ namespace Flujo_de_caja
                 label4.Text = Convert.ToString(Ingreso);
                 maskedIngreso.Clear();
             }
+
+            if(cambio > 0) 
+            {
+                cambio += Ingreso;
+                label10.Text = cambio.ToString();
+            }
+           
+           
            
        
         }
@@ -43,7 +51,7 @@ namespace Flujo_de_caja
         private void btnEgreso_Click(object sender, EventArgs e)
         {
 
-            if (maskedIngreso.Text == "")
+            if (maskedEgreso.Text == "")
             {
                 MessageBox.Show("Ingresar los egresos para calcular");
             }
@@ -54,6 +62,12 @@ namespace Flujo_de_caja
                 label5.Text = Convert.ToString(Egreso);
                 maskedEgreso.Clear();
             }
+
+            if (cambio > 0)
+            {
+                cambio -= Egreso;
+                label10.Text = cambio.ToString();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -61,16 +75,34 @@ namespace Flujo_de_caja
             MessageBox.Show("Bienvenido al programa de calculacion de flujo de caja");
         }
 
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            maskedIngreso.Clear();
+            maskedEgreso.Clear();
+
+            label4.Text= String.Empty;
+            label5.Text= String.Empty;
+            label9.Text= String.Empty;
+
+            MessageBox.Show("Todos los valores han sido limpiados");
+        }
+
         private void btnCalcular_Click(object sender, EventArgs e)
         {
             int resultado;
-            resultado = Ingreso - Egreso ;
+            
 
             if (Ingreso > 0 && Ingreso <= 1000000)
             {
                 if (Ingreso > Egreso)
                 {
+                    resultado = Ingreso - Egreso;
+                    cambio = resultado;
+                    label8.Visible = false;
+                    label9.Visible = false;
+                    label10.Text = cambio.ToString();
                     label9.Text = Convert.ToString(resultado);
+
                 }
                 else
                 {
